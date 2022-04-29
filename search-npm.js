@@ -1,3 +1,4 @@
+// Shortcut: command shift option n
 // Menu: Search NPM
 // Description: Search NPM
 // Author: Chris Malven
@@ -8,25 +9,43 @@ const baseUrl = "https://registry.npmjs.org/-/v1/search";
 
 const term = await arg("Search for:");
 
-const scoreBar = (score) => {
-  const count = Math.floor(score / 0.02);
-  return "•".repeat(count);
+const scoreBar = (label, score) => {
+  return `
+    <div class="pr-3">
+      <p class="text-xs mb-2">${label}</p>
+      <span class="h-0.5 block bg-zinc-100">
+        <span class="h-0.5 block bg-green-500" style="width: ${score * 100}%"></span>
+      </span>
+    </div>
+  `;
 };
 
-let preview = async ({ name, description, version, links, score }) =>
-  md(`
-  ## ${name}
-  ${description} - **v${version}**
-
-  - **Q** ${scoreBar(score.detail.quality)}
-  - **P** ${scoreBar(score.detail.popularity)}
-  - **M** ${scoreBar(score.detail.maintenance)}
-
-  #### Links
-  ${links.npm ? `- [npm](${links.npm})` : ""}
-  ${links.repository ? `- [repository](${links.repository})` : ""}
-  ${links.repository ? `- [homepage](${links.homepage})` : ""}
-`);
+let preview = async ({ name, description, version, links, score }) => {
+  // md(`
+  // ## ${name}
+  // ${description} - **v${version}**
+  //
+  // - **Q** ${scoreBar(score.detail.quality)}
+  // - **P** ${scoreBar(score.detail.popularity)}
+  // - **M** ${scoreBar(score.detail.maintenance)}
+  //
+  // #### Links
+  // ${links.npm ? `- [npm](${links.npm})` : ""}
+  // ${links.repository ? `- [repository](${links.repository})` : ""}
+  // ${links.repository ? `- [homepage](${links.homepage})` : ""}
+  return `
+    <div class="p-8">
+      <h1>${name}</h1>
+      <p class="text-xs">${description} - <strong>v${version}</strong></p>
+      
+      <div class="grid grid-cols-3 mt-5">
+        ${scoreBar('P', score.detail.popularity)}
+        ${scoreBar('Q', score.detail.quality)}
+        ${scoreBar('M', score.detail.maintenance)}
+      </div>
+    </div>
+  `;
+};
 
 async function results(ranking) {
 // Request API data
