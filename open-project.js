@@ -1,3 +1,4 @@
+// Shortcut: shift option control p
 // Name: Open Project
 // Description: Open a project in your default editor
 // Author: Chris Malven
