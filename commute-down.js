@@ -1,4 +1,6 @@
 // Name: Commute Down
+// Description: Sync a database down using Commute
+// Author: Chris Malven
 
 import "@johnlindquist/kit"
 let yaml = await npm('yaml');
