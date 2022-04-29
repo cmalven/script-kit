@@ -4,6 +4,7 @@
 // Author: Chris Malven
 
 import "@johnlindquist/kit";
+const human = await npm('human-time');
 
 const baseUrl = "https://registry.npmjs.org/-/v1/search";
 
@@ -29,12 +30,11 @@ const renderLink = (text, url) => {
 };
 
 let preview = async ({ name, description, version, links, date, score }) => {
-  var dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-
   return `
     <div class="p-8">
       <h1>${name}</h1>
-      <p class="text-xs">${description} - <strong>v${version}</strong> - ${new Date(date).toLocaleDateString('en-US', dateOptions)}</p>
+      <p class="text-xs">${human(new Date(date))} - <strong>v${version}</strong></p>
+      <p class="text-xs mt-3">${description}</p>
       
       <div class="grid grid-cols-3 mt-5">
         ${scoreBar('P', score.detail.popularity)}
