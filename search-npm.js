@@ -37,7 +37,7 @@ async function results(ranking) {
     return a.score.detail[ranking] < b.score.detail[ranking] ? 1 : -1;
   });
 
-// Prep results
+  // Prep results
   options = await options.map(({ package: p, score, _searchScore }) => {
     const { name, description, version, links } = p;
 
