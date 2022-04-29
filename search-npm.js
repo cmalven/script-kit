@@ -10,7 +10,7 @@ const term = await arg("Search for:");
 
 const scoreBar = (score) => {
   const count = Math.floor(score / 0.02);
-  return "=".repeat(count);
+  return "•".repeat(count);
 };
 
 let preview = async ({ name, description, version, links, score }) =>
@@ -18,10 +18,9 @@ let preview = async ({ name, description, version, links, score }) =>
   ## ${name}
   ${description} - **v${version}**
 
-  #### Score
-  - Q: ${scoreBar(score.detail.quality)}
-  - P: ${scoreBar(score.detail.popularity)}
-  - M: ${scoreBar(score.detail.maintenance)}
+  - **Q** ${scoreBar(score.detail.quality)}
+  - **P** ${scoreBar(score.detail.popularity)}
+  - **M** ${scoreBar(score.detail.maintenance)}
 
   #### Links
   ${links.npm ? `- [npm](${links.npm})` : ""}
@@ -29,26 +28,40 @@ let preview = async ({ name, description, version, links, score }) =>
   ${links.repository ? `- [homepage](${links.homepage})` : ""}
 `);
 
+async function results(ranking) {
 // Request API data
-const results = await get(`${baseUrl}?text=${term}`);
-const data = results.data;
+  const results = await get(`${baseUrl}?text=${term}`);
+  const data = results.data;
 
-let options = await data.objects.sort((a, b) => {
-  return a.score.detail.popularity > b.score.detail.popularity;
-});
+  let options = await data.objects.sort((a, b) => {
+    return a.score.detail[ranking] < b.score.detail[ranking] ? 1 : -1;
+  });
 
 // Prep results
-options = await options.map(({ package: p, score, _searchScore }) => {
-  const { name, description, version, links } = p;
+  options = await options.map(({ package: p, score, _searchScore }) => {
+    const { name, description, version, links } = p;
 
-  return {
-    name,
-    description,
-    value: links.npm,
-    preview: async () => preview({ name, description, version, links, score }),
-  }
+    return {
+      name,
+      description,
+      value: links.npm,
+      preview: async () => preview({ name, description, version, links, score }),
+    }
+  });
+
+  let url = await arg("Select package:", options);
+
+  await $`open ${url}`;
+}
+
+onTab('Popularlity', async () => {
+  await results("popularity");
 });
 
-let url = await arg("Select package:", options);
+onTab('Quality', async () => {
+  await results("quality");
+});
 
-await $`open ${url}`;
+onTab('Maintenance', async () => {
+  await results("maintenance");
+});
