@@ -28,11 +28,13 @@ const renderLink = (text, url) => {
   `;
 };
 
-let preview = async ({ name, description, version, links, score }) => {
+let preview = async ({ name, description, version, links, date, score }) => {
+  var dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+
   return `
     <div class="p-8">
       <h1>${name}</h1>
-      <p class="text-xs">${description} - <strong>v${version}</strong></p>
+      <p class="text-xs">${description} - <strong>v${version}</strong> - ${new Date(date).toLocaleDateString('en-US', dateOptions)}</p>
       
       <div class="grid grid-cols-3 mt-5">
         ${scoreBar('P', score.detail.popularity)}
@@ -61,13 +63,13 @@ async function results(ranking) {
 
   // Prep results
   options = await options.map(({ package: p, score, _searchScore }) => {
-    const { name, description, version, links } = p;
+    const { name, description, version, date, links } = p;
 
     return {
       name,
       description,
       value: links.npm,
-      preview: async () => preview({ name, description, version, links, score }),
+      preview: async () => preview({ name, description, version, links, date, score }),
     }
   });
 
