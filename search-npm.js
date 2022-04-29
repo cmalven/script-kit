@@ -11,28 +11,24 @@ const term = await arg("Search for:");
 
 const scoreBar = (label, score) => {
   return `
-    <div class="pr-3">
+    <div class="" style="padding-right: 20px;">
       <p class="text-xs mb-2">${label}</p>
-      <span class="h-0.5 block bg-zinc-100">
+      <span class="h-0.5 block bg-white">
         <span class="h-0.5 block bg-green-500" style="width: ${score * 100}%"></span>
       </span>
     </div>
   `;
 };
 
+const renderLink = (text, url) => {
+  return `
+    <div class="" style="padding-right: 10px;">
+      <a class="text-white px-3 py-2 text-xs uppercase font-bold rounded-sm bg-red-600 center no-underline" href="${url}">${text}</a>
+    </div>
+  `;
+};
+
 let preview = async ({ name, description, version, links, score }) => {
-  // md(`
-  // ## ${name}
-  // ${description} - **v${version}**
-  //
-  // - **Q** ${scoreBar(score.detail.quality)}
-  // - **P** ${scoreBar(score.detail.popularity)}
-  // - **M** ${scoreBar(score.detail.maintenance)}
-  //
-  // #### Links
-  // ${links.npm ? `- [npm](${links.npm})` : ""}
-  // ${links.repository ? `- [repository](${links.repository})` : ""}
-  // ${links.repository ? `- [homepage](${links.homepage})` : ""}
   return `
     <div class="p-8">
       <h1>${name}</h1>
@@ -42,6 +38,13 @@ let preview = async ({ name, description, version, links, score }) => {
         ${scoreBar('P', score.detail.popularity)}
         ${scoreBar('Q', score.detail.quality)}
         ${scoreBar('M', score.detail.maintenance)}
+      </div>
+      
+      <h2 class="mt-10 text-sm">Links</h2>
+      <div class="flex mt-3">
+        ${links.npm ? renderLink('NPM', links.npm) : ''}
+        ${links.repository ? renderLink('Repository', links.repository) : ''}
+        ${links.homepage && links.homepage !== links.repository ? renderLink('Homepage', links.homepage) : ''}
       </div>
     </div>
   `;
