@@ -68,14 +68,26 @@ async function results(ranking) {
     return {
       name,
       description,
-      value: links.npm,
+      value: { url: links.npm, name },
       preview: async () => preview({ name, description, version, links, date, score }),
     }
   });
 
-  let url = await arg("Select package:", options);
+  let selected = await arg("Select package:", options);
 
-  await $`open ${url}`;
+  const action = await arg("Choose an action:", [
+    { name: '[v]iew', value: 'view', description: 'View on NPM' },
+    { name: '[i]nstall', value: 'install', description: 'Copy install text to clipboard' },
+  ]);
+
+  switch (action) {
+    case 'view':
+      await $`open ${selected.url}`;
+      break;
+    case 'install':
+      await copy(`npm i ${selected.name}`);
+      break;
+  }
 }
 
 onTab('Popularlity', async () => {
