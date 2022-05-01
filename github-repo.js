@@ -2,9 +2,9 @@
 // Description: Open a repository in Github
 // Author: Chris Malven
 
-import "@johnlindquist/kit"
+import '@johnlindquist/kit';
 
-let GITHUB_TOKEN = await env("GITHUB_TOKEN", {
+let GITHUB_TOKEN = await env('GITHUB_TOKEN', {
   panel: md(`
     ## Get a [Github Personal Access Token](https://github.com/settings/tokens)
     
@@ -15,7 +15,7 @@ let GITHUB_TOKEN = await env("GITHUB_TOKEN", {
   secret: true,
 });
 
-const BASE_URL = "https://api.github.com";
+const BASE_URL = 'https://api.github.com';
 const REPOS_URL = `${BASE_URL}/user/repos?sort=updated&per_page=20&type=owner`;
 
 let getReposResponse = await get(REPOS_URL, {
@@ -31,7 +31,7 @@ let url = await arg(
       name: repo.name,
       description: repo.description,
       value: repo.html_url,
-    }))
-)
+    })),
+);
 
-exec(`open '${url}'`)
+exec(`open '${url}'`);

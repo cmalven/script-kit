@@ -3,12 +3,12 @@
 // Description: Search NPM
 // Author: Chris Malven
 
-import "@johnlindquist/kit";
+import '@johnlindquist/kit';
 const human = await npm('human-time');
 
-const baseUrl = "https://registry.npmjs.org/-/v1/search";
+const baseUrl = 'https://registry.npmjs.org/-/v1/search';
 
-const term = await arg("Search for:");
+const term = await arg('Search for:');
 
 const scoreBar = (label, score) => {
   return `
@@ -70,12 +70,12 @@ async function results(ranking) {
       description,
       value: { url: links.npm, name },
       preview: async () => preview({ name, description, version, links, date, score }),
-    }
+    };
   });
 
-  let selected = await arg("Select package:", options);
+  let selected = await arg('Select package:', options);
 
-  const action = await arg("Choose an action:", [
+  const action = await arg('Choose an action:', [
     { name: '[v]iew', value: 'view', description: 'View on NPM' },
     { name: '[i]nstall', value: 'install', description: 'Copy install text to clipboard' },
   ]);
@@ -91,13 +91,13 @@ async function results(ranking) {
 }
 
 onTab('Popularlity', async () => {
-  await results("popularity");
+  await results('popularity');
 });
 
 onTab('Quality', async () => {
-  await results("quality");
+  await results('quality');
 });
 
 onTab('Maintenance', async () => {
-  await results("maintenance");
+  await results('maintenance');
 });

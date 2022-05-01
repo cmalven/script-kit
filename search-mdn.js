@@ -1,4 +1,4 @@
-import "@johnlindquist/kit"
+import '@johnlindquist/kit';
     
 // Shortcode:
 // Menu: Search MDN
@@ -7,8 +7,8 @@ import "@johnlindquist/kit"
 // Twitter: @johnlindquist
 
 let searchIndexResponse = await get(
-  `https://developer.mozilla.org/en-US/search-index.json`
-)
+  `https://developer.mozilla.org/en-US/search-index.json`,
+);
 
 let url = await arg(
   `Select doc:`,
@@ -16,7 +16,7 @@ let url = await arg(
     name: title,
     description: url,
     value: `https://developer.mozilla.org${url}`,
-  }))
-)
+  })),
+);
 
-exec(`open '${url}'`)
+exec(`open '${url}'`);

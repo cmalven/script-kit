@@ -2,7 +2,7 @@
 // Description: Sync a database down using Commute
 // Author: Chris Malven
 
-import "@johnlindquist/kit"
+import '@johnlindquist/kit';
 let yaml = await npm('yaml');
 
 // Read a file from the local filesystem
@@ -29,11 +29,11 @@ const projectOptions = projects.map(([key, info]) => {
     description: `${info.remote.u} - ${info.remote.host}`,
     value: key,
     preview: async () => preview(key, info),
-  }
-})
+  };
+});
 
 // Get the selected project
-let projectKey = await arg("Select project:", projectOptions);
+let projectKey = await arg('Select project:', projectOptions);
 
 // Run Commute
 await $`commute ${projectKey} down`;

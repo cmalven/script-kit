@@ -3,9 +3,9 @@
 // Description: Open a project in your default editor
 // Author: Chris Malven
 
-import "@johnlindquist/kit"
+import '@johnlindquist/kit';
 
-let CODE_DIR = await env("CODE_DIR", {
+let CODE_DIR = await env('CODE_DIR', {
   panel: md(`## Enter the path to your main code directory, relative to your user directory. e.g. "Code"`),
   ignoreBlur: true,
   secret: false,
@@ -27,7 +27,7 @@ const preview = async (dir) => {
   } catch (err) {
     return md(`## Couldn't read README.md`);
   }
-}
+};
 
 const selectedDir = await arg('Open Project:', projectDirs.map(dir => ({
   name: dir,
