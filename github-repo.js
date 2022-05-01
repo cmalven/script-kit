@@ -16,7 +16,7 @@ let GITHUB_TOKEN = await env('GITHUB_TOKEN', {
 });
 
 const BASE_URL = 'https://api.github.com';
-const REPOS_URL = `${BASE_URL}/user/repos?sort=updated&per_page=20&type=owner`;
+const REPOS_URL = `${BASE_URL}/user/repos?sort=updated&per_page=50&type=owner`;
 
 let getReposResponse = await get(REPOS_URL, {
   headers: {
