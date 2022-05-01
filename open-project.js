@@ -5,7 +5,12 @@
 
 import "@johnlindquist/kit"
 
-const CODE_DIR = "Code"
+let CODE_DIR = await env("CODE_DIR", {
+  panel: md(`## Enter the path to your main code directory, relative to your user directory. e.g. "Code"`),
+  ignoreBlur: true,
+  secret: false,
+});
+
 const IGNORED = [
   '.DS_Store',
 ];
